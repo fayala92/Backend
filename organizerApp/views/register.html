@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+        }
+
+        body{
+            margin:auto;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h3{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #signup{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: start;
+            padding: 30px;
+            width: 300px;
+            height: 450px;
+            background-color: grey;
+            border-radius: 15px;
+        }
+        
+        label{
+            width: 200px;
+            margin-left: 10px;
+        }
+
+        input{
+            margin-bottom: 10px;
+            width: 200px;
+            text-align: center;
+            border-radius: 10px;
+            
+        }
+
+        #submitBtn{
+            width: 100px;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Inicio de formulario de registro -->
+    <form id="signup" action="">
+        <h3>Registrarse</h3>
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" id="name" required>
+        <label for="birthday">Fecha de Nac:</label>
+        <input type="date" name="birthday" id="birthday" required>
+        <label for="email">E-mail:</label>
+        <input type="email" name="email" id="email" required>
+        <label for="username">Usuario:</label>
+        <input type="text" name="username" id="username" required>
+        <label for="password">Contraseña:</label>
+        <input type="password" name="password" id="password" required>
+        <label for="confPass">Confirmar contraseña:</label>
+        <input type="password" name="confPass" id="confPass" required>
+        <input id="submitBtn" type="submit" value="Registrarse">
+    </form>
+    <!-- Fin de formulario de registro -->
+
+    <!-- Script de funcionalidad del formulario -->
+    <script>
+        const signup = document.getElementById("signup")
+        signup.onsubmit = function(event){
+            event.preventDefault()
+
+            fetch("/register",{
+                method:"POST",
+                headers:{
+                    "Content-type":"application/json" //Especificamos que se va a recibir un JSON
+                },
+                body:JSON.stringify({                 //Enviamos el contenido en formato JSON
+                    name:signup.name.value,
+                    birthday:signup.birthday.value,
+                    email:signup.email.value,
+                    username:signup.username.value,
+                    password:signup.password.value
+                })
+            }).then(function(result){
+                console.log(result)
+                return result.json() //Devuelve una promesa
+            })
+            .then(function(data){    //Consultamos la data
+                console.log(data)
+            })
+            .catch(function(error){   //Devolvemos error en caso de producirse
+                console.log(error)
+            })
+        }   
+        
+
+    </script>
+</body>
+</html>
